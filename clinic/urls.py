@@ -15,18 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
 from rest_framework import routers
 from patient.api.viewsets import PatientsViewset
 from scheduling.api.viewsets import AppointmentsViewSet
 from records.api.viewsets import RecordsViewSet
+from images.api.viewsets import ImagesHistoricalViewSet
 
 router = routers.DefaultRouter()
 router.register(r'patients', PatientsViewset)
 router.register(r'scheduling', AppointmentsViewSet)
 router.register(r'records', RecordsViewSet)
+router.register(r'images_historical', ImagesHistoricalViewSet)
 
 
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
